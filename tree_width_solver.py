@@ -1,8 +1,8 @@
 # Simplices: A list of the d+1 simplices of the complex, where each simplex is represented as a frozenset containing its vertices.
 # Weights: A dictionary with d-simplices (represented as frozensets) as keys and weights of simplex as value
 
-from persistenthomologylocalization.algorithms.treewidth_algorithms.per_hom_loc_sg_rep import per_hom_loc_sg_rep
-from persistenthomologylocalization.algorithms.treewidth_algorithms.tools.chain_complex import ChainComplex
+from treewidth_algorithms.per_hom_loc_sg_rep import per_hom_loc_sg_rep
+from treewidth_algorithms.tools.chain_complex import ChainComplex
 
 
 class TWInterface(object):

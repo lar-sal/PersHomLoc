@@ -1,6 +1,6 @@
 # Forced path choice for sparse matrix, pick the node of lowest degree, tie-breaker is age for now
-def dijkstra_solve(cols,w,t):
-    s = general_dijkstra(cols, w, t, w_t=0)
+def dijkstra_solve(matrix, vector, weights):
+    s = general_dijkstra(matrix, weights, vector, w_t=0)
     solution_size = s[1]
     solution = []
     memory_peak = "NaN"

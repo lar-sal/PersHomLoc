@@ -1,8 +1,8 @@
 
 import math
 
-from persistenthomologylocalization.algorithms.treewidth_algorithms.error_file import MemoryLimitViolation
-from persistenthomologylocalization.algorithms.treewidth_algorithms.tools.bit_magic import MyUniverse, Translator
+from treewidth_algorithms.error_file import MemoryLimitViolation
+from treewidth_algorithms.tools.bit_magic import MyUniverse, Translator
 
 
 def per_hom_loc_sg_rep(cc, v, give_status, memory_limit):

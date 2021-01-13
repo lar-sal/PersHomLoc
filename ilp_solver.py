@@ -9,13 +9,6 @@ def to_row_matrix(matrix, vector):
     vector_out = vector_to_zero_one(vector, nr_of_rows)
     return matrix_out, vector_out
 
-def to_zero_one(matrix, vector):
-    nr_of_rows = max([max([max(col) for col in matrix if col != set([])]), max(list(vector))])
-    #print(nr_of_rows)
-    matrix_out = [vector_to_zero_one(col, nr_of_rows) for col in matrix]
-    vector_out = vector_to_zero_one(vector, nr_of_rows)
-    return matrix_out, vector_out
-
 def vector_to_zero_one(vector, max_value):
     vector_out = [0 for i in range(max_value+1)]
     for entry in vector:
@@ -40,36 +33,6 @@ def ilp_solve(matrix, vector, weights):
     memory_peak = "NaN"
     return solution_size, solution, setup, memory_peak
 
-
-# Code for generating a model
-def generate_model(rows, cols, b, v, c):
-    """
-    rows: List of row ``names'' (integers usually)
-    cols: The matrix, represented as a list of lists, each inner list being a binary vector (i.e. [0,1,0,1,0,0,0,0, etc.])
-    b: List of variables in b
-    v: The target vector
-    c: The weights of each column
-    """
-
-    # Initializes a model
-    mdl = Model('persistenthomologylocalization')
-
-    # Add matrix variables
-    x = mdl.addVars(list(range(len(cols))), vtype=GRB.BINARY)
-
-    # Add the dummy variable needed to do arithmetics mod 2
-    y = mdl.addVars(rows, vtype=GRB.INTEGER)
-
-    # Set model to minimization
-    mdl.modelSense = GRB.MINIMIZE
-
-    # Set objective function to minimize
-    mdl.setObjective(quicksum(x[j] * c[j] for j in b))
-
-    # Set the constrains
-    for i in range(len(rows+1)):
-        mdl.addConstr(quicksum(x[j] * cols[j][i] for j in range(len(cols))) + v[i] == y[i] * 2)
-    return mdl, x, y
 
 # Code for generating a model
 def generate_row_model(row_matrix, b, v, c):

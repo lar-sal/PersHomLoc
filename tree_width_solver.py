@@ -7,18 +7,24 @@ from treewidth_algorithms.tools.chain_complex import ChainComplex
 
 class TWInterface(object):
 
-    def __init__(self, columns, rows, column_weights, cycle, full_setup=True, memory_limit=2 ** 20):
+    def __init__(self, columns, vector, column_weights, full_setup=True, memory_limit=2 ** 20):
         self.memory_limit = memory_limit
         self.column_weights = column_weights
         self.columns = columns
-        self.rows = rows
+        self.rows = self.compute_rows()
         self.chain_complex = None
-        self.cycle = cycle
+        self.vector = vector
         if full_setup:
             self.compute_treewidth()
 
-    def set_cycle(self, cycle):
-        self.cycle = cycle
+    def set_vector(self, vector):
+        self.vector = vector
+
+    def compute_rows(self):
+        rows = set([])
+        for column in self.columns:
+            set.union(rows, set(column))
+        return list(rows)
 
     def compute_treewidth(self, connectivity_graph=True, spine_graph=True):
         self.chain_complex = ChainComplex(self.columns, self.rows, self.column_weights, connectivity_graph = connectivity_graph, spine_graph=spine_graph)
@@ -36,7 +42,7 @@ class TWInterface(object):
         return self.chain_complex.cg_NTD_size()
 
     def homology_localization(self, print_status=False):
-        return per_hom_loc_sg_rep(self.chain_complex, self.cycle, print_status, self.memory_limit)
+        return per_hom_loc_sg_rep(self.chain_complex, self.vector, print_status, self.memory_limit)
 
     def nice_tree_decomposition(self, spine_graph=True):
         if spine_graph:
